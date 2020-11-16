@@ -9,11 +9,10 @@ from django.conf import settings
 # Create your models here.
 
 class Profile(models.Model):
-    user = models.OneToOneField( settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
+    user = models.OneToOneField( settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile', blank=True)
     name = models.CharField(max_length=80, blank=True)
     location = models.CharField(max_length=50, blank=True, null=True)
     profile_picture = CloudinaryField('image')
-    email = models.EmailField()
 
 
     def __str__(self):

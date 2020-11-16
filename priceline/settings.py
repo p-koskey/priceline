@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'carhire',
     'authentication',
     'rest_framework',
+    'rest_framework_simplejwt.token_blacklist',
     'bootstrap4',
 ]
 
@@ -142,4 +143,5 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+    
 }
