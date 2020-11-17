@@ -46,17 +46,20 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
     'bootstrap4',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'priceline.urls'
@@ -119,7 +122,11 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTH_USER_MODEL ='authentication.User'
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
-
+#frontend 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:4200",
+    
+]
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'Africa/Nairobi'
