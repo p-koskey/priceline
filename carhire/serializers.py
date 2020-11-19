@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.fields import CurrentUserDefault
-from .models import User, Profile
+from .models import *
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -19,3 +19,9 @@ class ProfileSerializer(serializers.ModelSerializer):
         """Include default for read_only `user` field"""
         kwargs["user"] = self.fields["user"].get_default()
         return super().save(**kwargs)
+
+class BookingsSerializer(serializer.ModelSerializer):
+    class Meta:
+        model = Bookings
+        fields = '__all__'
+
