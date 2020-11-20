@@ -1,15 +1,19 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect, get_object_or_404
 from django.http  import HttpResponse
-from .serializers import UserSerializer, ProfileSerializer
+from .serializers import *
 from .models import Profile
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-
 from django.contrib.auth import get_user_model
 User = get_user_model()
 from .permissions import IsCompanyAdmin, IsNormalUser,IsVendor, UserIsOwnerOrReadOnly
 from rest_framework.permissions import IsAuthenticated
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.models import User
+from rest_framework.decorators import APIView
+from rest_framework.response import Response
+from .models import *
 
 # Create your views here.
 class UserView(APIView):
@@ -81,3 +85,51 @@ class UpdateProfileView(APIView):
                 data["success"] = "update sucessful"
                 return Response(data=data)
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST )
+
+
+class BookingsList(APIView):
+    """
+    List all Bookings, or Create a booking
+    """
+    def get(self, request, format=None):
+        book = Bookings.objects.all()
+        serializer = BookingsSerializer(book, many=True)
+        return Response(serializer.data)
+    
+    def post(self,request, format=None):
+        serializer= BookingsSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class BookingDetail(APIView):
+    """
+    Retrieve, update or delete a booking instance
+    """
+    def get_object(self, pk):
+        try:
+            return Bookings,objects.get(pk=pk)
+        except Bookings.DoesNotExist:
+            raise Http404 
+    
+    def get(self, request, pk, format=None):
+        book = self.get_object(pk)
+        serializer = BookingsSerializer(book)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        book = self.get_object(pk)
+        serializer = BookingsSerializer(book, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        book = self.get_object(pk)
+        book.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
