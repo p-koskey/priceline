@@ -30,13 +30,13 @@ class Profile(models.Model):
 class Car(models.Model):
 
     CHOICES = (
-        ('M', 'Manual'),
-        ('A', 'Auto'),
+        ('Manual','M'),
+        ( 'Auto', 'A'),
         
     )
     CHOICES2 = (
-        ('P', 'Petrol'),
-        ('D', 'Diesel'),
+        ('Petrol', 'P'),
+        ('Diesel', 'D'),
         
     )
     CHOICES3 = (
@@ -64,13 +64,10 @@ class Car(models.Model):
 
 
 class Bookings(models.Model):
-    car = models.ManyToManyField(Car, related_name='bookedcar', blank=True)
-    user = models.ManyToManyField( settings.AUTH_USER_MODEL,  related_name='client', blank=True)
+    car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name='bookedcar', blank=True,null=True)
+    user = models.ForeignKey( settings.AUTH_USER_MODEL,  on_delete=models.CASCADE, related_name='client', blank=True, null=True)
     startdate = models.DateField(verbose_name=('Start Date'),help_text='Borrowed is on ..',null=True,blank=False)
     returndate = models.DateField(verbose_name=('Return Date'),help_text='will be returned on ...',null=True,blank=False)
     cell_no = models.CharField(max_length=15)
     address = models.TextField()
-
-    def __str__(self):
-        return self.car_name
 

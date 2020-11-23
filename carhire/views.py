@@ -187,7 +187,10 @@ class BookCar(APIView):
         except Car.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         if request.method == 'POST':
-            serializer = BookingsSerializer(data=request.data,context={'request':request})
+
+            print(request.data)
+            serializer = BookingsSerializer(car=car_post,data=request.data,context={'request':request})
+            # data['car'] = car_post
             data = {}
             if serializer.is_valid():
                 serializer.save()

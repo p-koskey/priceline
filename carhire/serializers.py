@@ -30,6 +30,7 @@ class BookingsSerializer(serializers.ModelSerializer):
     def save(self, **kwargs):
         """Include default for read_only `user` field"""
         kwargs["user"] = self.fields["user"].get_default()
+        
         return super().save(**kwargs)
 
 class CarSerializer(serializers.ModelSerializer):
