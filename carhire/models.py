@@ -33,8 +33,7 @@ class Bookings(models.Model):
 	returndate = models.DateField(verbose_name=_('Return Date'),help_text='will be returned on ...',null=True,blank=False)
     cell_no = models.CharField(max_length=15)
     address = models.TextField()
-    date = models.DateTimeField()
-    to = models.DateTimeField()
+    
 
     def __str__(self):
         return self.car_name
@@ -58,8 +57,11 @@ class Categories(models.Model):
     description = HTMLField()
     name =models.CharField(max_length=100)
     email = models.EmailField()
-    location =models.CharField(max_length=100)
     contact = PhoneNumberField()
 
     def __str__(self):
         return self.name
+
+
+
+
