@@ -127,6 +127,7 @@ AUTH_USER_MODEL ='authentication.User'
 #frontend 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
+    'https://p-koskey.github.io/priceline-front/',
     
 ]
 LANGUAGE_CODE = 'en-us'
