@@ -124,7 +124,7 @@ class   SmallCarCategoryView(APIView):
     #permission_classes = (IsAuthenticated,IsNormalUser)
     def get(self,request):
         try:
-            car_post = Car.objects.get(car_type='S')
+            car_post = Car.objects.filter(car_type='S')
         except Car.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         if request.method == 'GET':
@@ -136,7 +136,7 @@ class   MidCarCategoryView(APIView):
     #permission_classes = (IsAuthenticated,IsNormalUser)
     def get(self,request):
         try:
-            car_post = Car.objects.get(car_type='M')
+            car_post = Car.objects.filter(car_type='M')
         except Car.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         if request.method == 'GET':
@@ -148,7 +148,7 @@ class   LargeCarCategoryView(APIView):
     #permission_classes = (IsAuthenticated,IsNormalUser)
     def get(self,request):
         try:
-            car_post = Car.objects.get(car_type='L')
+            car_post = Car.objects.filter(car_type='L')
         except Car.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         if request.method == 'GET':
@@ -160,7 +160,7 @@ class   AmbulanceCarCategoryView(APIView):
     #permission_classes = (IsAuthenticated,IsNormalUser)
     def get(self,request):
         try:
-            car_post = Car.objects.get(car_type='A')
+            car_post = Car.objects.filter(car_type='A')
         except Car.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         if request.method == 'GET':
