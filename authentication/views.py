@@ -21,6 +21,7 @@ class RegisterView(APIView):
             data['username'] = user.username
         else:
             data = serializer.errors
+            return Response(data,status=status.HTTP_404_NOT_FOUND)
         return Response(data)
 
 class LogoutView(APIView):

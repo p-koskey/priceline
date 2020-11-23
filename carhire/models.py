@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.conf import settings
-from tinymce.models import HTMLField
+
 
 # Create your models here.
 
@@ -27,39 +27,56 @@ class Profile(models.Model):
     def save_user_profile(sender, instance, **kwargs):
             instance.profile.save()
 
-class Bookings(models.Model):
-    car_name = models.CharField(max_length=100)
-    startdate = models.DateField(verbose_name=_('Start Date'),help_text='Borrowed is on ..',null=True,blank=False)
-	returndate = models.DateField(verbose_name=_('Return Date'),help_text='will be returned on ...',null=True,blank=False)
-    cell_no = models.CharField(max_length=15)
-    address = models.TextField()
-    date = models.DateTimeField()
-    to = models.DateTimeField()
+class Car(models.Model):
+
+    CHOICES = (
+        ('M', 'Manual'),
+        ('A', 'Auto'),
+        
+    )
+    CHOICES2 = (
+        ('P', 'Petrol'),
+        ('D', 'Diesel'),
+        
+    )
+    CHOICES3 = (
+        ('S', 'Sports Car'),
+        ('M', 'Mid-size Vehicle'), 
+        ('L', 'Large Vehicle'),
+        ('A', 'Ambulance'),  
+        
+    ) 
+    name = models.CharField(max_length=100)
+    image = CloudinaryField('image')
+    seats = models.TextField(null=True)
+    doors = models.TextField(null=True)
+    transmission = models.CharField(max_length=300, choices = CHOICES,null=True)
+    fuel = models.CharField(max_length=300, choices = CHOICES2,null=True)
+    car_type = models.CharField(max_length=300, choices = CHOICES3,null=True)
+    daily_rent = models.IntegerField()
+    is_available = models.BooleanField()
+
+    def get_absolute_url(self):
+        return reverse('car-details', kwargs={'pk': self.pk})
+
+    def __str__(self):
+        return self.name
+
+class Vendor(models.Model):
+    car = models.OneToOneField(Car,on_delete=models.CASCADE, related_name='car', blank=True, null=True)
+    
 
     def __str__(self):
         return self.car_name
 
-    @property
-	def rent_days(self):
-		days_count = ''
-		startdate = self.startdate
-		enddate = self.enddate
-		if startdate > returndate:
-			return
-		dates = (enddate - returndate)
-		return dates.days
-
-    def get_absolute_url(self):
-        return "/car/detail/%s/" % (self.id)
-
-class Categories(models.Model):
-    car_type= CharField(max_length=400)
-    logo = CloudinaryField('image', null=True)
-    description = HTMLField()
-    name =models.CharField(max_length=100)
-    email = models.EmailField()
-    location =models.CharField(max_length=100)
-    contact = PhoneNumberField()
+class Bookings(models.Model):
+    car = models.ManyToManyField(Car, related_name='bookedcar', blank=True)
+    user = models.ManyToManyField( settings.AUTH_USER_MODEL,  related_name='client', blank=True)
+    startdate = models.DateField(verbose_name=('Start Date'),help_text='Borrowed is on ..',null=True,blank=False)
+    returndate = models.DateField(verbose_name=('Return Date'),help_text='will be returned on ...',null=True,blank=False)
+    cell_no = models.CharField(max_length=15)
+    address = models.TextField()
 
     def __str__(self):
-        return self.name
+        return self.car_name
+

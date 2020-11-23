@@ -86,22 +86,109 @@ class UpdateProfileView(APIView):
                 return Response(data=data)
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST )
 
+class CreateCarView(APIView):
+    # permission_classes = (IsAuthenticated,IsCompanyAdmin)
+    def post(self,request):
+        if request.method == 'POST':
+            serializer = CarSerializer(data=request.data)
+            data = {}
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
-class BookingsList(APIView):
+class CarAllView(APIView):
+    # permission_classes = (IsAuthenticated,IsNormalUser)
+    def get(self,request):
+        try:
+            car_post = Car.objects.all()
+        except Car.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        if request.method == 'GET':
+            serializer = CarSerializer(car_post, many=True)
+            data = {}
+            return Response(serializer.data)
+
+class CarIdView(APIView):
+    #permission_classes = (IsAuthenticated,IsNormalUser)
+    def get(self,request,id):
+        try:
+            car_post = Car.objects.get(id=id)
+        except Car.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        if request.method == 'GET':
+            serializer = CarSerializer(car_post)
+            return Response(serializer.data)
+
+class   SmallCarCategoryView(APIView):
+    #permission_classes = (IsAuthenticated,IsNormalUser)
+    def get(self,request):
+        try:
+            car_post = Car.objects.get(car_type='S')
+        except Car.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        if request.method == 'GET':
+            serializer = CarSerializer(car_post)
+            return Response(serializer.data)
+
+class   MidCarCategoryView(APIView):
+    #permission_classes = (IsAuthenticated,IsNormalUser)
+    def get(self,request):
+        try:
+            car_post = Car.objects.get(car_type='M')
+        except Car.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        if request.method == 'GET':
+            serializer = CarSerializer(car_post)
+            return Response(serializer.data)
+
+class   LargeCarCategoryView(APIView):
+    #permission_classes = (IsAuthenticated,IsNormalUser)
+    def get(self,request):
+        try:
+            car_post = Car.objects.get(car_type='L')
+        except Car.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        if request.method == 'GET':
+            serializer = CarSerializer(car_post)
+            return Response(serializer.data)
+
+class   AmbulanceCarCategoryView(APIView):
+    #permission_classes = (IsAuthenticated,IsNormalUser)
+    def get(self,request):
+        try:
+            car_post = Car.objects.get(car_type='A')
+        except Car.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        if request.method == 'GET':
+            serializer = CarSerializer(car_post)
+            return Response(serializer.data)
+
+
+class CarDeleteView(APIView):
+    #permission_classes = (IsAuthenticated,IsNormalUser)
+    def get(self,request,id):
+        car = Car.objects.get(id=id)
+        car.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class BookCar(APIView):
     """
     List all Bookings, or Create a booking
     """
-    def get(self, request, format=None):
-        book = Bookings.objects.all()
-        serializer = BookingsSerializer(book, many=True)
-        return Response(serializer.data)
-    
-    def post(self,request, format=None):
-        serializer= BookingsSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def post(self,request,id):
+        user = request.user
+        try:
+            car_post = Car.objects.get(id=id)
+        except Car.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        if request.method == 'POST':
+            serializer = BookingsSerializer(data=request.data,context={'request':request})
+            data = {}
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 
 class BookingDetail(APIView):
