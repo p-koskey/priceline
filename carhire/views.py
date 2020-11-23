@@ -129,6 +129,7 @@ class   SmallCarCategoryView(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
         if request.method == 'GET':
             serializer = CarSerializer(car_post,many=True)
+            data = {}
             return Response(serializer.data)
 
 class   MidCarCategoryView(APIView):
@@ -140,6 +141,7 @@ class   MidCarCategoryView(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
         if request.method == 'GET':
             serializer = CarSerializer(car_post,many=True)
+            data = {}
             return Response(serializer.data)
 
 class   LargeCarCategoryView(APIView):
@@ -151,6 +153,7 @@ class   LargeCarCategoryView(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
         if request.method == 'GET':
             serializer = CarSerializer(car_post,many=True)
+            data = {}
             return Response(serializer.data)
 
 class   AmbulanceCarCategoryView(APIView):
@@ -162,6 +165,7 @@ class   AmbulanceCarCategoryView(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
         if request.method == 'GET':
             serializer = CarSerializer(car_post,many=True)
+            data = {}
             return Response(serializer.data)
 
 
