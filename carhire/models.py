@@ -64,8 +64,8 @@ class Car(models.Model):
 
 
 class Bookings(models.Model):
-    car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name='bookedcar', blank=True,null=True)
-    user = models.ForeignKey( settings.AUTH_USER_MODEL,  on_delete=models.CASCADE, related_name='client', blank=True, null=True)
+    car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name='bookedcar', blank=True,null=True, unique=False)
+    user = models.ForeignKey( settings.AUTH_USER_MODEL,  on_delete=models.CASCADE, related_name='client', blank=True, null=True, unique=False)
     startdate = models.DateField(verbose_name=('Start Date'),help_text='Borrowed is on ..',null=True,blank=False)
     returndate = models.DateField(verbose_name=('Return Date'),help_text='will be returned on ...',null=True,blank=False)
     cell_no = models.CharField(max_length=15)

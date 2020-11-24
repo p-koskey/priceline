@@ -32,7 +32,7 @@ class ProfileView(APIView):
     def post(self,request,id):
         user = request.user
         try:
-            user_profile = User.objects.get(id=id)
+            user_profile = get_user_model().objects.get(id=id)
         except User.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         if user_profile != user:
@@ -188,8 +188,9 @@ class BookCar(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
         if request.method == 'POST':
 
-            print(request.data)
-            serializer = BookingsSerializer(car=car_post,data=request.data,context={'request':request})
+            data = request.data.copy()
+            data['car'] = car_post.id
+            serializer = BookingsSerializer(data=data,context={'request':request})
             # data['car'] = car_post
             data = {}
             if serializer.is_valid():

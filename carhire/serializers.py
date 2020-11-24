@@ -32,7 +32,7 @@ class BookingsSerializer(serializers.ModelSerializer):
         kwargs["user"] = self.fields["user"].get_default()
         
         return super().save(**kwargs)
-
+    
 class CarSerializer(serializers.ModelSerializer):
     class Meta:
         model = Car

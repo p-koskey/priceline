@@ -2,7 +2,7 @@ serve:
 	python manage.py runserver
 	
 superuser:
-	python manage.py createsuperuser --username $(name) 
+	python manage.py createsuperuser
 
 migrate:
 	python manage.py migrate
