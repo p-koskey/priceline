@@ -7,6 +7,7 @@ from . import views
 urlpatterns = [
     # Your URLs...
     path('api/profile/<id>', views.ProfileView.as_view(), name="profile"),
+    path('api/user/', views.UserView.as_view(), name="user"),
     path('api/userprofiles', views.ProfilesView.as_view(), name="userprofiles"),
     path('api/profile',views.ProfileIdView.as_view(), name="userprofile"),
     path('api/updateprofile',views.UpdateProfileView.as_view(), name="updateprofile"),

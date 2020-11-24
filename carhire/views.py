@@ -17,14 +17,11 @@ from .models import *
 
 # Create your views here.
 class UserView(APIView):
-    permission_classes = (IsAuthenticated,IsCompanyAdmin)
+    permission_classes = (IsAuthenticated,)
     def get(self,request):
-        try:
-            users = User.objects.all()
-        except User.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+        user = request.user
         if request.method == 'GET':
-            serializer = UserSerializer(users, many=True)
+            serializer = UserSerializer(user)
             return Response(serializer.data)
 
 class ProfileView(APIView):
