@@ -128,6 +128,7 @@ AUTH_USER_MODEL ='authentication.User'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
     'https://p-koskey.github.io',
+    "https://langat05.github.io",
     
 ]
 LANGUAGE_CODE = 'en-us'
