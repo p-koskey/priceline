@@ -178,3 +178,8 @@ REST_FRAMEWORK = {
     "DATE_INPUT_FORMATS": ["%Y-%m-%d"],
     
 }
+
+JWT_AUTH = {
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3600),
+}
