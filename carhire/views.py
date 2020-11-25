@@ -204,7 +204,7 @@ class UserBookingsView(APIView):
         except Bookings.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         if request.method == 'GET':
-            serializer = BookingsSerializer(booking,context={'request':request}, many=True)
+            serializer = BookingsSerializer(booking,context={'request':request})
             return Response(serializer.data)
 
 
